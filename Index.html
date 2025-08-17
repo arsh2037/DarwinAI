@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Darwin AI - Custom AI & Automation Partner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* bg-slate-900 */
+        }
+        /* Simple animation for hero section text */
+        .fade-in-up {
+            animation: fadeInUp 1s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        /* Canvas for AI background animation */
+        #ai-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        /* Scrolling logo animation */
+        .logos-slide {
+            display: inline-block;
+            animation: 35s slide infinite linear;
+        }
+        .logos:hover .logos-slide {
+            animation-play-state: paused;
+        }
+        @keyframes slide {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
+        /* Spinner for loading state */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #22d3ee; /* cyan-400 */
+            width: 32px;
+            height: 32px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <!-- Calendly badge widget CSS -->
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+</head>
+<body class="bg-slate-900 text-gray-300">
+
+    <!-- Header -->
+    <header class="bg-slate-900/80 backdrop-blur-lg sticky top-0 z-40 border-b border-slate-700">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white">
+                Darwin<span class="text-cyan-400">AI</span>
+            </a>
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="#services" class="text-gray-300 hover:text-cyan-400 transition-colors">Services</a>
+                <a href="#why-us" class="text-gray-300 hover:text-cyan-400 transition-colors">Why Us</a>
+                <a href="#testimonials" class="text-gray-300 hover:text-cyan-400 transition-colors">Clients</a>
+                <a href="#book-a-call" class="bg-cyan-500 text-white font-semibold px-5 py-2 rounded-lg hover:bg-cyan-600 transition-all shadow-sm shadow-cyan-500/20">
+                    Book a Call
+                </a>
+            </nav>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-gray-300">
+                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu (Hidden by default) -->
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-slate-900 z-50">
+        <div class="flex justify-end p-6">
+            <button id="mobile-menu-close-button">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <nav class="flex flex-col items-center justify-center h-full space-y-8">
+            <a href="#services" class="text-2xl text-gray-300 hover:text-cyan-400 mobile-nav-link">Services</a>
+            <a href="#why-us" class="text-2xl text-gray-300 hover:text-cyan-400 mobile-nav-link">Why Us</a>
+            <a href="#testimonials" class="text-2xl text-gray-300 hover:text-cyan-400 mobile-nav-link">Clients</a>
+            <a href="#book-a-call" class="text-2xl bg-cyan-500 text-white font-semibold px-8 py-4 rounded-lg hover:bg-cyan-600 transition-all shadow-sm shadow-cyan-500/20 mobile-nav-link">
+                Book a Call
+            </a>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Section 1: Hero -->
+        <section class="relative bg-slate-900 overflow-hidden">
+            <canvas id="ai-background"></canvas>
+            <div class="relative z-10 container mx-auto px-6 py-24 md:py-32 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight mb-4 fade-in-up">
+                    Unlock Your Business's Potential. We're Bringing AI to the Top End.
+                </h1>
+                <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-8 fade-in-up delay-1">
+                    It's time for Darwin to lead the way. We provide practical, hands-on AI solutions to help local businesses gain a competitive edge.
+                </p>
+                <a href="#book-a-call" class="bg-cyan-500 text-white font-bold px-8 py-4 rounded-lg hover:bg-cyan-600 transition-all text-lg inline-block shadow-lg shadow-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/40 transform hover:-translate-y-0.5 fade-in-up delay-2">
+                    Book a Free Strategy Call
+                </a>
+                <p class="mt-4 text-sm text-gray-500 fade-in-up delay-3">No obligation, just practical advice.</p>
+            </div>
+        </section>
+
+        <!-- Section 2: AI Idea Generator -->
+        <section id="idea-generator" class="py-20 md:py-28 bg-slate-800/50">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white">See What AI Can Do For You</h2>
+                <p class="text-gray-400 mt-2 max-w-2xl mx-auto mb-8">Enter your industry to get instant, tailored ideas on how AI can boost your business, powered by Google Gemini.</p>
+                <div class="max-w-xl mx-auto flex flex-col sm:flex-row gap-4 items-center">
+                    <input type="text" id="industry-input" class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-4 py-3 focus:ring-cyan-500 focus:border-cyan-500" placeholder="e.g., Tourism, Retail, Construction...">
+                    <button id="generate-ideas-btn" class="w-full sm:w-auto bg-cyan-500 text-white font-bold px-6 py-3 rounded-lg hover:bg-cyan-600 transition-all shadow-lg shadow-cyan-500/30 flex-shrink-0">
+                        ✨ Generate AI Ideas
+                    </button>
+                </div>
+                <div id="ideas-result" class="mt-8 min-h-[150px] max-w-3xl mx-auto bg-slate-800 p-6 rounded-xl border border-slate-700 text-left">
+                    <p class="text-gray-500">Your personalized AI ideas will appear here...</p>
+                </div>
+                <div id="demo-button-container" class="mt-6 hidden">
+                    <a href="#book-a-call" class="bg-green-500 text-white font-bold px-8 py-4 rounded-lg hover:bg-green-600 transition-all text-lg inline-block shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                        Get a Free Demo
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 3: Services Overview -->
+        <section id="services" class="py-20 md:py-28">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Practical AI Solutions to Drive Growth</h2>
+                    <p class="text-gray-400 mt-2 max-w-2xl mx-auto">We focus on real-world applications that deliver measurable results.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Service Card 1: Automation & Agents -->
+                    <div class="bg-slate-800 p-8 rounded-xl shadow-lg hover:shadow-cyan-500/10 transition-shadow border border-slate-700 hover:border-cyan-500/50 flex flex-col">
+                        <div class="bg-slate-700 text-cyan-400 rounded-full h-12 w-12 flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">AI Automation & Custom Agents</h3>
+                        <p class="text-gray-400 flex-grow">Eliminate repetitive tasks and build a custom AI workforce to handle support, data entry, and more.</p>
+                        <button id="open-automation-modal" class="mt-4 w-full bg-cyan-500/20 text-cyan-300 font-semibold px-4 py-2 rounded-lg hover:bg-cyan-500/30 transition-colors">
+                           ✨ Automate a Task
+                        </button>
+                    </div>
+                    <!-- Service Card 2: Integrations -->
+                    <div class="bg-slate-800 p-8 rounded-xl shadow-lg hover:shadow-cyan-500/10 transition-shadow border border-slate-700 hover:border-cyan-500/50 flex flex-col">
+                        <div class="bg-slate-700 text-cyan-400 rounded-full h-12 w-12 flex items-center justify-center mb-4">
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2V7a2 2 0 012-2h6l2-2h2l-2 2z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Software & CRM Integration</h3>
+                        <p class="text-gray-400 flex-grow">Connect your essential systems into a single, seamless ecosystem that shares data intelligently.</p>
+                        <button id="open-crm-modal" class="mt-4 w-full bg-cyan-500/20 text-cyan-300 font-semibold px-4 py-2 rounded-lg hover:bg-cyan-500/30 transition-colors">
+                           ✨ Suggest an Integration
+                        </button>
+                    </div>
+                    <!-- Service Card 3: Workshops -->
+                    <div class="bg-slate-800 p-8 rounded-xl shadow-lg hover:shadow-cyan-500/10 transition-shadow border border-slate-700 hover:border-cyan-500/50 flex flex-col">
+                        <div class="bg-slate-700 text-cyan-400 rounded-full h-12 w-12 flex items-center justify-center mb-4">
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Hands-On AI Workshops</h3>
+                        <p class="text-gray-400 flex-grow">Empower your team with the skills to leverage AI. We offer tailored workshops for businesses in Darwin.</p>
+                        <button id="open-workshop-modal" class="mt-4 w-full bg-cyan-500/20 text-cyan-300 font-semibold px-4 py-2 rounded-lg hover:bg-cyan-500/30 transition-colors">
+                           ✨ Suggest Workshop Topics
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Why Choose Us -->
+        <section id="why-us" class="py-20 md:py-28 bg-slate-800/50">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Your Local AI Partner in Darwin</h2>
+                <p class="text-gray-400 max-w-3xl mx-auto mb-10">We're a local team dedicated to making powerful AI technology practical and accessible for NT businesses. No buzzwords, just real-world results.</p>
+                <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <div class="text-center">
+                        <h3 class="font-semibold text-white text-lg mb-2">Local, Hands-On Consulting</h3>
+                        <p class="text-gray-500">Face-to-face strategy from a team that understands the Top End.</p>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-semibold text-white text-lg mb-2">Practical, Jargon-Free</h3>
+                        <p class="text-gray-500">We translate complex tech into tangible business outcomes.</p>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-semibold text-white text-lg mb-2">End-to-End Partnership</h3>
+                        <p class="text-gray-500">From strategy to support, we're with you for the long haul.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Testimonials -->
+        <section id="testimonials" class="py-20 md:py-28">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">What Our Clients Say</h2>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                    <div class="bg-slate-800 p-8 rounded-xl shadow-lg border border-slate-700 flex flex-col justify-between">
+                        <p class="text-gray-400 mb-6">"Arsh's work has made the processes in the restaurant so much easier. We really enjoyed the experience and the innovation we have now."</p>
+                        <p class="font-bold text-white text-right">- Saffron Restaurant</p>
+                    </div>
+                    <div class="bg-slate-800 p-8 rounded-xl shadow-lg border border-slate-700 flex flex-col justify-between">
+                        <p class="text-gray-400 mb-6">"Best workshops ever, exposed us to a completely new technology that is making things happen for us."</p>
+                        <p class="font-bold text-white text-right">- University Stakeholders</p>
+                    </div>
+                    <div class="bg-slate-800 p-8 rounded-xl shadow-lg border border-slate-700 flex flex-col justify-between">
+                        <p class="text-gray-400 mb-6">"Definitely recommended for people who want to bring improvement and innovation in a place like Darwin."</p>
+                        <p class="font-bold text-white text-right">- Young and Curious Media</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Book a Call (Direct Embed) -->
+        <section id="book-a-call" class="py-20 md:py-28 bg-slate-800/50">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white">Ready to Unlock Your Business Potential?</h2>
+                <p class="text-gray-400 mt-2 max-w-2xl mx-auto mb-10">Book a complimentary 30-minute strategy call below. We’ll identify key opportunities for automation and show you exactly how AI can deliver value.</p>
+                
+                <div class="bg-white rounded-2xl overflow-hidden max-w-4xl mx-auto">
+                    <div class="calendly-inline-widget" data-url="https://calendly.com/abhineetnirmal/30min?hide_gdpr_banner=1&background_color=ffffff&text_color=0f172a&primary_color=06b6d4" style="min-width:320px;height:700px;"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 7: Technology Partners -->
+        <section class="py-20">
+            <div class="container mx-auto px-6">
+                <h3 class="text-center text-gray-400 font-semibold mb-12">Powered by World-Class Technology</h3>
+                <div class="logos relative w-full overflow-hidden whitespace-nowrap py-4">
+                    <div class="logos-slide">
+                        <span class="inline-block mx-8 text-gray-500 font-bold text-xl">OpenAI</span>
+                        <span class="inline-block mx-8 text-gray-500 font-bold text-xl">Google Gemini</span>
+                        <span class="inline-block mx-8 text-gray-500 font-bold text-xl">Microsoft Azure</span>
+                        <span class="inline-block mx-8 text-gray-500 font-bold text-xl">Voiceflow</span>
+                        <span class="inline-block mx-8 text-gray-500 font-bold text-xl">n8n</span>
+                        <span class="inline-block mx-8 text-gray-500 font-bold text-xl">Zapier</span>
+                        <span class="inline-block mx-8 text-gray-500 font-bold text-xl">Netlify</span>
+                        <span class="inline-block mx-8 text-gray-500 font-bold text-xl">Salesforce</span>
+                    </div>
+                    <div class="logos-slide">
+                        <span class="inline-block mx-8 text-gray-500 font-bold text-xl">OpenAI</span>
+                        <span class="inline-block mx-8 text-gray-500 font-bold text-xl">Google Gemini</span>
+                        <span class="inline-block mx-8 text-gray-500 font-bold text-xl">Microsoft Azure</span>
+                        <span class="inline-block mx-8 text-gray-500 font-bold text-xl">Voiceflow</span>
+                        <span class="inline-block mx-8 text-gray-500 font-bold text-xl">n8n</span>
+                        <span class="inline-block mx-8 text-gray-500 font-bold text-xl">Zapier</span>
+                        <span class="inline-block mx-8 text-gray-500 font-bold text-xl">Netlify</span>
+                        <span class="inline-block mx-8 text-gray-500 font-bold text-xl">Salesforce</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-500">
+            <p>&copy; 2025 DarwinAI. All rights reserved.</p>
+            <p class="text-sm mt-2">Your Local AI Implementation Partner in Darwin, NT.</p>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="workshop-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-800 border border-slate-700 rounded-xl shadow-2xl p-8 max-w-lg w-full relative">
+            <button id="close-workshop-modal" class="absolute top-4 right-4 text-gray-500 hover:text-white"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+            <h3 class="text-2xl font-bold text-white mb-4">AI Workshop Idea Generator</h3>
+            <p class="text-gray-400 mb-6">Describe your business, and we'll suggest relevant workshop topics.</p>
+            <textarea id="workshop-input" rows="3" class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-4 py-3 focus:ring-cyan-500 focus:border-cyan-500" placeholder="e.g., 'A local tour operator struggling with bookings'"></textarea>
+            <button id="generate-workshop-btn" class="mt-4 w-full bg-cyan-500 text-white font-bold px-6 py-3 rounded-lg hover:bg-cyan-600 transition-all">✨ Suggest Topics</button>
+            <div id="workshop-result" class="mt-6 min-h-[100px] text-gray-400"><p>Workshop ideas will appear here...</p></div>
+        </div>
+    </div>
+
+    <div id="automation-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-800 border border-slate-700 rounded-xl shadow-2xl p-8 max-w-lg w-full relative">
+            <button id="close-automation-modal" class="absolute top-4 right-4 text-gray-500 hover:text-white"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+            <h3 class="text-2xl font-bold text-white mb-4">Automation Idea Generator</h3>
+            <p class="text-gray-400 mb-6">Describe a repetitive task in your business, and we'll suggest how to automate it.</p>
+            <textarea id="automation-input" rows="3" class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-4 py-3 focus:ring-cyan-500 focus:border-cyan-500" placeholder="e.g., 'Manually entering invoice data into a spreadsheet'"></textarea>
+            <button id="generate-automation-btn" class="mt-4 w-full bg-cyan-500 text-white font-bold px-6 py-3 rounded-lg hover:bg-cyan-600 transition-all">✨ Suggest Automation</button>
+            <div id="automation-result" class="mt-6 min-h-[100px] text-gray-400"><p>Your automation idea will appear here...</p></div>
+        </div>
+    </div>
+
+    <div id="crm-modal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-800 border border-slate-700 rounded-xl shadow-2xl p-8 max-w-lg w-full relative">
+            <button id="close-crm-modal" class="absolute top-4 right-4 text-gray-500 hover:text-white"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+            <h3 class="text-2xl font-bold text-white mb-4">Integration Idea Generator</h3>
+            <p class="text-gray-400 mb-6">List the software you use, and we'll suggest a powerful integration.</p>
+            <textarea id="crm-input" rows="3" class="w-full bg-slate-700 border border-slate-600 text-white rounded-lg px-4 py-3 focus:ring-cyan-500 focus:border-cyan-500" placeholder="e.g., 'We use Xero, Mailchimp, and Shopify'"></textarea>
+            <button id="generate-crm-btn" class="mt-4 w-full bg-cyan-500 text-white font-bold px-6 py-3 rounded-lg hover:bg-cyan-600 transition-all">✨ Suggest Integration</button>
+            <div id="crm-result" class="mt-6 min-h-[100px] text-gray-400"><p>Your integration idea will appear here...</p></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+    <script type="text/javascript">
+        window.onload = function() { 
+            Calendly.initBadgeWidget({ 
+                url: 'https://calendly.com/abhineetnirmal/30min?hide_gdpr_banner=1', 
+                text: 'Cuppa?', 
+                color: '#06b6d4', /* This is Tailwind's cyan-500 */
+                textColor: '#ffffff', 
+                branding: true 
+            }); 
+        }
+    </script>
+    
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenuCloseButton = document.getElementById('mobile-menu-close-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.remove('hidden'); });
+        mobileMenuCloseButton.addEventListener('click', () => { mobileMenu.classList.add('hidden'); });
+        mobileNavLinks.forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); }); });
+
+        // Modal Toggles
+        function setupModal(openBtnId, closeBtnId, modalId) {
+            const openBtn = document.getElementById(openBtnId);
+            const closeBtn = document.getElementById(closeBtnId);
+            const modal = document.getElementById(modalId);
+            if(openBtn && closeBtn && modal) {
+                openBtn.addEventListener('click', () => modal.classList.remove('hidden'));
+                closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+            }
+        }
+        setupModal('open-workshop-modal', 'close-workshop-modal', 'workshop-modal');
+        setupModal('open-automation-modal', 'close-automation-modal', 'automation-modal');
+        setupModal('open-crm-modal', 'close-crm-modal', 'crm-modal');
+        
+        // Gemini API Integration
+        const ideasResultDiv = document.getElementById('ideas-result');
+        const generateIdeasBtn = document.getElementById('generate-ideas-btn');
+        const industryInput = document.getElementById('industry-input');
+        const demoButtonContainer = document.getElementById('demo-button-container');
+
+        const workshopResultDiv = document.getElementById('workshop-result');
+        const generateWorkshopBtn = document.getElementById('generate-workshop-btn');
+        const workshopInput = document.getElementById('workshop-input');
+
+        const automationResultDiv = document.getElementById('automation-result');
+        const generateAutomationBtn = document.getElementById('generate-automation-btn');
+        const automationInput = document.getElementById('automation-input');
+
+        const crmResultDiv = document.getElementById('crm-result');
+        const generateCrmBtn = document.getElementById('generate-crm-btn');
+        const crmInput = document.getElementById('crm-input');
+
+        const apiKey = ""; // API key is handled by the environment
+
+        async function callGemini(prompt, resultDiv, button, showDemoButton = false) {
+            resultDiv.innerHTML = '<div class="flex justify-center items-center"><div class="spinner"></div></div>';
+            if(button) button.disabled = true;
+            if (showDemoButton) demoButtonContainer.classList.add('hidden');
+
+            let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+            const payload = { contents: chatHistory };
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            try {
+                let response;
+                let delay = 1000;
+                for (let i = 0; i < 5; i++) {
+                    response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (response.ok) break;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2;
+                }
+
+                if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
+
+                const result = await response.json();
+                if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts.length > 0) {
+                    let text = result.candidates[0].content.parts[0].text;
+                    text = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-cyan-400">$1</strong>');
+                    text = text.replace(/•/g, '<li class="mb-2">').replace(/\n/g, '');
+                    resultDiv.innerHTML = `<ul class="list-disc list-inside text-gray-300">${text}</ul>`;
+                    if (showDemoButton) demoButtonContainer.classList.remove('hidden');
+                } else {
+                    resultDiv.innerHTML = '<p class="text-red-400">Sorry, we couldn\'t generate ideas at this moment. Please try again later.</p>';
+                }
+            } catch (error) {
+                console.error("Gemini API call failed:", error);
+                resultDiv.innerHTML = '<p class="text-red-400">An error occurred. Please check the console for details.</p>';
+            } finally {
+                if(button) button.disabled = false;
+            }
+        }
+
+        generateIdeasBtn.addEventListener('click', () => {
+            const industry = industryInput.value;
+            if (!industry.trim()) {
+                ideasResultDiv.innerHTML = '<p class="text-yellow-400">Please enter your industry first.</p>';
+                return;
+            }
+            const prompt = `As an AI consultant in Darwin, Australia, give me up to 5 innovative but practical AI-powered ideas for a local business in the '${industry}' sector. Each idea must be a single sentence and presented as a bullet point. The ideas should be based on these services: AI-powered workshops, workflow automation, data analysis, custom website chatbots, AI calling agents, Instagram sales bots, and content generation.`;
+            callGemini(prompt, ideasResultDiv, generateIdeasBtn, true);
+        });
+
+        function setupModalGenerator(btnId, inputId, resultDivId, promptTemplate) {
+            const btn = document.getElementById(btnId);
+            const input = document.getElementById(inputId);
+            const resultDiv = document.getElementById(resultDivId);
+            btn.addEventListener('click', () => {
+                const userInput = input.value;
+                if (!userInput.trim()) {
+                    resultDiv.innerHTML = `<p class="text-yellow-400">Please provide some details first.</p>`;
+                    return;
+                }
+                const prompt = promptTemplate.replace('{{userInput}}', userInput);
+                callGemini(prompt, resultDiv, btn);
+            });
+        }
+
+        setupModalGenerator('generate-workshop-btn', 'workshop-input', workshopResultDiv, `For a business in Darwin that is described as: '{{userInput}}', suggest 3 specific, hands-on AI workshop topics that would provide immediate value. Give each topic a clear title and a one-sentence description. Format as bullet points.`);
+        setupModalGenerator('generate-automation-btn', 'automation-input', automationResultDiv, `A business owner in Darwin does this repetitive task: '{{userInput}}'. Suggest one specific and practical way this could be automated using AI agents or workflow tools. Describe the outcome in one or two sentences.`);
+        setupModalGenerator('generate-crm-btn', 'crm-input', crmResultDiv, `A business in Darwin uses these systems: '{{userInput}}'. Suggest one high-impact integration or automation they could build to connect them. Describe the main benefit in one or two sentences.`);
+
+        // AI Background Animation Script
+        const canvas = document.getElementById('ai-background');
+        const ctx = canvas.getContext('2d');
+        let particlesArray;
+        function setCanvasSize() { const parent = canvas.parentElement; canvas.width = parent.offsetWidth; canvas.height = parent.offsetHeight; }
+        setCanvasSize();
+        class Particle { constructor(x, y, dX, dY, s, c) { this.x=x; this.y=y; this.directionX=dX; this.directionY=dY; this.size=s; this.color=c; } draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false); ctx.fillStyle = this.color; ctx.fill(); } update() { if (this.x > canvas.width || this.x < 0) { this.directionX = -this.directionX; } if (this.y > canvas.height || this.y < 0) { this.directionY = -this.directionY; } this.x += this.directionX; this.y += this.directionY; this.draw(); } }
+        function init() { particlesArray = []; let num = (canvas.height * canvas.width) / 9000; for (let i=0; i<num; i++) { let s = (Math.random() * 2) + 1; let x = (Math.random() * ((canvas.width - s*2) - (s*2)) + s*2); let y = (Math.random() * ((canvas.height - s*2) - (s*2)) + s*2); let dX = (Math.random() * .4) - .2; let dY = (Math.random() * .4) - .2; let c = 'rgba(6, 182, 212, 0.8)'; particlesArray.push(new Particle(x, y, dX, dY, s, c)); } }
+        function animate() { requestAnimationFrame(animate); ctx.clearRect(0, 0, canvas.width, canvas.height); for (let i=0; i<particlesArray.length; i++) { particlesArray[i].update(); } connect(); }
+        function connect() { let opacityValue = 1; for (let a=0; a<particlesArray.length; a++) { for (let b=a; b<particlesArray.length; b++) { let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y)); if (distance < (canvas.width/7) * (canvas.height/7)) { opacityValue = 1 - (distance/20000); ctx.strokeStyle = `rgba(6, 182, 212, ${opacityValue})`; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(particlesArray[a].x, particlesArray[a].y); ctx.lineTo(particlesArray[b].x, particlesArray[b].y); ctx.stroke(); } } } }
+        window.addEventListener('resize', () => { setCanvasSize(); init(); });
+        init();
+        animate();
+    </script>
+</body>
+</html>
